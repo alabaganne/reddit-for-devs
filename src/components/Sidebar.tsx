@@ -1,7 +1,7 @@
 'use client'
 
 import { Community, Hashtag } from '@/lib/mockData'
-import { Users, Hash, Search } from 'lucide-react'
+import { Users, Hash, Search, X } from 'lucide-react'
 
 interface SidebarProps {
   communities: Community[]
@@ -10,6 +10,7 @@ interface SidebarProps {
   onCommunitySelect: (communityId: string) => void
   onHashtagClick: (hashtag: string) => void
   onSearch: (query: string) => void
+  onToggleSidebar: () => void
 }
 
 export default function Sidebar({
@@ -18,7 +19,8 @@ export default function Sidebar({
   selectedCommunity,
   onCommunitySelect,
   onHashtagClick,
-  onSearch
+  onSearch,
+  onToggleSidebar
 }: SidebarProps) {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,21 +32,27 @@ export default function Sidebar({
   }
 
   return (
-    <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-6 space-y-6">
-      {/* Search Bar */}
-      <div className="space-y-2">
+    <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-6 space-y-6 h-full overflow-y-auto">
+      <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Search</h3>
-        <form onSubmit={handleSearch} className="relative">
-          <input
-            type="text"
-            name="search"
-            placeholder="Search posts, communities..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-          />
-          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-        </form>
+        <button 
+          onClick={onToggleSidebar} 
+          className="lg:hidden p-2 -mr-2 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+        >
+          <X size={24} />
+        </button>
       </div>
-
+      
+      <form onSubmit={handleSearch} className="relative">
+        <input
+          type="text"
+          name="search"
+          placeholder="Search posts, communities..."
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+        />
+        <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+      </form>
+      
       {/* Communities */}
       <div className="space-y-3">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">

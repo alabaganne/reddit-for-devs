@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import Navbar from "@/components/Navbar";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -26,10 +25,7 @@ export default function RootLayout({
       <body
         className={`${spaceMono.variable} font-mono antialiased bg-gray-50 dark:bg-gray-900 transition-colors`}
       >
-        <ThemeProvider>
-          <Navbar />
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Post } from '@/lib/mockData'
-import { PlusCircle, X } from 'lucide-react'
+import { Post, mockCommunities } from '@/lib/mockData'
+import { PlusCircle, X, Hash } from 'lucide-react'
 
 interface CreatePostProps {
   onNewPost: (post: Post) => void
@@ -15,6 +15,8 @@ export default function CreatePost({ onNewPost }: CreatePostProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [selectedCommunity, setSelectedCommunity] = useState('1') // Default to Web Development
+  const [hashtags, setHashtags] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,18 +31,28 @@ export default function CreatePost({ onNewPost }: CreatePostProps) {
       const newId = `post-${++postIdCounter}`
       const timestamp = new Date().toISOString()
       
+      // Parse hashtags from input
+      const hashtagArray = hashtags
+        .split(',')
+        .map(tag => tag.trim().replace('#', ''))
+        .filter(tag => tag.length > 0)
+      
       const newPost: Post = {
         id: newId,
         title: title.trim(),
         content: content.trim(),
         created_at: timestamp,
         updated_at: timestamp,
-        upvotes: 0
+        upvotes: 0,
+        communityId: selectedCommunity,
+        hashtags: hashtagArray
       }
 
       onNewPost(newPost)
       setTitle('')
       setContent('')
+      setSelectedCommunity('1')
+      setHashtags('')
       setIsOpen(false)
       setLoading(false)
     }, 500)
@@ -89,6 +101,25 @@ export default function CreatePost({ onNewPost }: CreatePostProps) {
         </div>
 
         <div>
+          <label htmlFor="community" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Community
+          </label>
+          <select
+            id="community"
+            value={selectedCommunity}
+            onChange={(e) => setSelectedCommunity(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-700 transition-colors"
+            required
+          >
+            {mockCommunities.map((community) => (
+              <option key={community.id} value={community.id}>
+                {community.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
           <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Content
           </label>
@@ -101,6 +132,26 @@ export default function CreatePost({ onNewPost }: CreatePostProps) {
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-700 transition-colors"
             required
           />
+        </div>
+
+        <div>
+          <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Hashtags
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              id="hashtags"
+              value={hashtags}
+              onChange={(e) => setHashtags(e.target.value)}
+              placeholder="react, typescript, webdev (comma separated)"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-700 transition-colors"
+            />
+            <Hash className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Separate hashtags with commas. Don&apos;t include the # symbol.
+          </p>
         </div>
 
         <div className="flex gap-3 pt-2">

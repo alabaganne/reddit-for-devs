@@ -7,9 +7,11 @@ interface BlogListProps {
   posts: Post[]
   onPostUpdate: (post: Post) => void
   onPostDelete: (postId: string) => void
+  onCommunityClick?: (communityId: string) => void
+  onHashtagClick?: (hashtag: string) => void
 }
 
-export default function BlogList({ posts, onPostUpdate, onPostDelete }: BlogListProps) {
+export default function BlogList({ posts, onPostUpdate, onPostDelete, onCommunityClick, onHashtagClick }: BlogListProps) {
   if (posts.length === 0) {
     return (
       <div className="text-center py-12">
@@ -33,6 +35,8 @@ export default function BlogList({ posts, onPostUpdate, onPostDelete }: BlogList
           post={post}
           onUpdate={onPostUpdate}
           onDelete={onPostDelete}
+          onCommunityClick={onCommunityClick}
+          onHashtagClick={onHashtagClick}
         />
       ))}
     </div>

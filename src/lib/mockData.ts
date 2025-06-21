@@ -1,3 +1,11 @@
+export interface Community {
+  id: string
+  name: string
+  description: string
+  memberCount: number
+  color: string
+}
+
 export interface Post {
   id: string
   title: string
@@ -5,6 +13,8 @@ export interface Post {
   created_at: string
   updated_at: string
   upvotes: number
+  communityId: string
+  hashtags: string[]
 }
 
 export interface Comment {
@@ -15,6 +25,12 @@ export interface Comment {
   upvotes: number
 }
 
+export interface Hashtag {
+  name: string
+  searchCount: number
+  lastSearched: string
+}
+
 // Use static timestamps to avoid hydration issues
 const getStaticTodayTime = (hours: number, minutes: number = 0) => {
   // Use a fixed date instead of new Date() to prevent hydration mismatches
@@ -22,6 +38,79 @@ const getStaticTodayTime = (hours: number, minutes: number = 0) => {
   fixedDate.setHours(hours, minutes, 0, 0)
   return fixedDate.toISOString()
 }
+
+export const mockCommunities: Community[] = [
+  {
+    id: '1',
+    name: 'Web Development',
+    description: 'Everything about modern web development',
+    memberCount: 1247,
+    color: 'bg-blue-500'
+  },
+  {
+    id: '2',
+    name: 'React',
+    description: 'React ecosystem and best practices',
+    memberCount: 892,
+    color: 'bg-cyan-500'
+  },
+  {
+    id: '3',
+    name: 'TypeScript',
+    description: 'TypeScript tips, tricks, and discussions',
+    memberCount: 654,
+    color: 'bg-blue-600'
+  },
+  {
+    id: '4',
+    name: 'UI/UX Design',
+    description: 'User interface and experience design',
+    memberCount: 445,
+    color: 'bg-purple-500'
+  },
+  {
+    id: '5',
+    name: 'DevOps',
+    description: 'Development operations and deployment',
+    memberCount: 567,
+    color: 'bg-green-500'
+  },
+  {
+    id: '6',
+    name: 'JavaScript',
+    description: 'JavaScript language and ecosystem',
+    memberCount: 1103,
+    color: 'bg-yellow-500'
+  }
+]
+
+export const mockHashtags: Hashtag[] = [
+  {
+    name: 'react',
+    searchCount: 156,
+    lastSearched: '2024-01-16T10:30:00Z'
+  },
+  {
+    name: 'typescript',
+    searchCount: 89,
+    lastSearched: '2024-01-16T09:15:00Z'
+  },
+  {
+    name: 'nextjs',
+    searchCount: 67,
+    lastSearched: '2024-01-16T08:45:00Z'
+  },
+  {
+    name: 'tailwind',
+    searchCount: 45,
+    lastSearched: '2024-01-16T07:20:00Z'
+  },
+  {
+    name: 'docker',
+    searchCount: 34,
+    lastSearched: '2024-01-16T06:10:00Z'
+  }
+]
 
 export const mockPosts: Post[] = [
   {
@@ -36,7 +125,9 @@ Feel free to upvote posts you enjoy and add your thoughts in the comments. Let's
 What topics would you like to see more of here?`,
     created_at: '2024-01-15T10:30:00Z',
     updated_at: '2024-01-15T10:30:00Z',
-    upvotes: 42
+    upvotes: 42,
+    communityId: '1',
+    hashtags: ['welcome', 'community', 'discussion']
   },
   {
     id: '2',
@@ -51,7 +142,9 @@ Zero-Trust Security: Essential for modern applications
 What emerging technologies are you most excited about? Let me know in the comments!`,
     created_at: '2024-01-14T15:45:00Z',
     updated_at: '2024-01-14T15:45:00Z',
-    upvotes: 28
+    upvotes: 28,
+    communityId: '1',
+    hashtags: ['webdev', 'trends', 'react', 'css']
   },
   {
     id: '3',
@@ -70,7 +163,9 @@ The best products are those that users don't even think about - they just work s
 What's your approach to UX design?`,
     created_at: '2024-01-13T09:20:00Z',
     updated_at: '2024-01-13T09:20:00Z',
-    upvotes: 15
+    upvotes: 15,
+    communityId: '4',
+    hashtags: ['ux', 'design', 'accessibility', 'research']
   },
   // Static "today" posts to avoid hydration issues
   {
@@ -86,7 +181,9 @@ See "Today" posts (submitted today)
 This makes it so much easier to discover content that matters to you. Try switching between the tabs and let me know what you think!`,
     created_at: getStaticTodayTime(16, 0), // 4:00 PM on fixed date
     updated_at: getStaticTodayTime(16, 0),
-    upvotes: 67
+    upvotes: 67,
+    communityId: '1',
+    hashtags: ['feature', 'launch', 'tabs', 'ui']
   },
   {
     id: '5',
@@ -102,7 +199,9 @@ Focus on what matters - Not every style preference needs a comment
 What's your code review process like?`,
     created_at: getStaticTodayTime(14, 30), // 2:30 PM on fixed date
     updated_at: getStaticTodayTime(14, 30),
-    upvotes: 23
+    upvotes: 23,
+    communityId: '5',
+    hashtags: ['codereview', 'tips', 'quality', 'collaboration']
   },
   {
     id: '6',
@@ -114,7 +213,9 @@ There's something magical about creating a feature, shipping it, and then seeing
 What motivates you in your work?`,
     created_at: getStaticTodayTime(8, 15), // 8:15 AM on fixed date
     updated_at: getStaticTodayTime(8, 15),
-    upvotes: 89
+    upvotes: 89,
+    communityId: '1',
+    hashtags: ['motivation', 'coffee', 'reflection', 'community']
   }
 ]
 

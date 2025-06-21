@@ -7,6 +7,7 @@ import CreatePost from '@/components/CreatePost'
 import Pagination from '@/components/Pagination'
 import Sidebar from '@/components/Sidebar'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 type TabType = 'best' | 'today' | 'new'
 
@@ -205,7 +206,7 @@ export default function Home() {
                   Welcome to <span className="text-yellow-500 underline">Coddit</span> 💻
                 </h1>
                 <p className="text-lg text-gray-600 dark:text-gray-300 transition-colors">
-                  Share your thoughts and engage with the community
+                  Share your thoughts and engage with a community of developers.
                 </p>
               </header>
               
@@ -301,6 +302,7 @@ export default function Home() {
               )}
             </div>
           </div>
+          <Footer />
         </main>
       </div>
     </>

@@ -171,7 +171,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <header className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
-                Welcome Devs! 🚀
+                Welcome to <span className="text-yellow-500 underline">Coddit</span> 💻
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-300 transition-colors">
                 Share your thoughts and engage with the community
